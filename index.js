@@ -74,5 +74,13 @@ app.get('/api/boardDetail/:boardId', function(req, res) {
     })
 })
 
+app.post('/api/boardInput',(req,res) => {
+    console.log(req.body)
+    connection.query(`insert into board(TITLE,CONTENT,WRITER) values("${req.body.title}","${req.body.content}","${req.body.user_id}")`,(err,result) => {
+        if(err) throw err;
+        res.send({status:"성공"})
+    })
+})
+
 
 app.listen(4000)
