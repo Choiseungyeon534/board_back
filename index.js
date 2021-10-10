@@ -82,5 +82,16 @@ app.post('/api/boardInput',(req,res) => {
     })
 })
 
+app.get('/api/boardDelete/:boardId',(req,res) => {
+    console.log(req.params.boardId)
+    let boardId = parseInt(req.params.boardId)
+    connection.query(`delete from board where BOARD_ID=${boardId};`, (err, result) => {
+        if(err) throw err;
+        res.send({status:"삭제성공"})
+    })
+})
+
+
+
 
 app.listen(4000)
