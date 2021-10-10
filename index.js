@@ -74,6 +74,7 @@ app.get('/api/boardDetail/:boardId', function(req, res) {
     })
 })
 
+// 특정게시글 생성
 app.post('/api/boardInput',(req,res) => {
     console.log(req.body)
     connection.query(`insert into board(TITLE,CONTENT,WRITER) values("${req.body.title}","${req.body.content}","${req.body.user_id}")`,(err,result) => {
@@ -82,6 +83,7 @@ app.post('/api/boardInput',(req,res) => {
     })
 })
 
+// 특정게시글 삭제
 app.get('/api/boardDelete/:boardId',(req,res) => {
     console.log(req.params.boardId)
     let boardId = parseInt(req.params.boardId)
@@ -91,6 +93,14 @@ app.get('/api/boardDelete/:boardId',(req,res) => {
     })
 })
 
+// 특정게시글 수정(update)
+app.post('/api/boardEdit/:boardId',(req,res) => {
+    let boardId = parseInt(req.params.boardId)
+    connection.query(`update board set TITLE="${req.body.title}", CONTENT="${req.body.content}", WRITER="${req.body.user_id}" WHERE BOARD_ID=${boardId};`,(err,result) => {
+        if(err) throw err;
+        res.send({status:"수정성공"})
+    })
+})
 
 
 
