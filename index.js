@@ -74,6 +74,26 @@ app.get('/api/boardDetail/:boardId', function(req, res) {
     })
 })
 
+
+// 댓글 보여주기
+app.get('/api/reply/:boardId', function(req, res) {
+    let boardId = parseInt(req.params.boardId)
+    connection.query(`select * from reply where BOARD_ID=${boardId};`,(err, result) => {
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+// 댓글 쓰기
+app.post('/api/replyWrite', function(req, res) {
+    console.log(req.body)
+    connection.query(`insert into reply(writer, comment, time, BOARD_ID) values("${req.body.writer}","${req.body.comment}","${req.body.time}","${req.body.boardId}")`,(err,result) => {
+        if(err) throw err;
+        res.send({status:"성공"})
+    })
+})
+
+
 // 특정게시글 생성
 app.post('/api/boardInput',(req,res) => {
     console.log(req.body)
