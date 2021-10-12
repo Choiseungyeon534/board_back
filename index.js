@@ -80,6 +80,7 @@ app.get('/api/reply/:boardId', function(req, res) {
     let boardId = parseInt(req.params.boardId)
     connection.query(`select * from reply where BOARD_ID=${boardId};`,(err, result) => {
         if(err) throw err;
+        console.log(result)
         res.send(result)
     })
 })
@@ -87,7 +88,7 @@ app.get('/api/reply/:boardId', function(req, res) {
 // 댓글 쓰기
 app.post('/api/replyWrite', function(req, res) {
     console.log(req.body)
-    connection.query(`insert into reply(writer, comment, time, BOARD_ID) values("${req.body.writer}","${req.body.comment}","${req.body.time}","${req.body.boardId}")`,(err,result) => {
+    connection.query(`insert into reply(writer, comment, BOARD_ID) values("${req.body.writer}","${req.body.comment}","${req.body.boardId}")`,(err,result) => {
         if(err) throw err;
         res.send({status:"성공"})
     })
@@ -119,6 +120,16 @@ app.post('/api/boardEdit/:boardId',(req,res) => {
     connection.query(`update board set TITLE="${req.body.title}", CONTENT="${req.body.content}", WRITER="${req.body.user_id}" WHERE BOARD_ID=${boardId};`,(err,result) => {
         if(err) throw err;
         res.send({status:"수정성공"})
+    })
+})
+
+
+// 제목으로 검색
+app.post('/api/searchTitle', function(req, res) {
+    let title = req.body.title // String "dkasdkdla" 8자이상
+    connection.query(`select * from board  where TITLE like "%${title}%";`,(err,result) => {
+        if(err) throw err;
+        res.send(result)
     })
 })
 
