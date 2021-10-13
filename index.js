@@ -20,11 +20,13 @@ app.post("/api/login", function(req, res) {
     connection.query(`select * from user where id="${id}" and pass="${pass}";`,(err,result) => {
         if(err) throw err;
         console.log(result.length)
+        console.log(result)
         let isSuccess = result.length;
 
         if(isSuccess >= 1) {
             res.send({
-                status:'성공'
+                status:'성공',
+                id:result[0].id
             })
         }else {
             res.send({
